@@ -3,7 +3,7 @@ const wfdQuestions = [
     {
         id: 1,
         audioSrc: "/assets/WFD material/Please get us a meeting room for the next hour.mp3",
-        answer: "Please get us a meeting room for the next hour."
+        answer: "Please get, us a meeting room for the next hour."
     },
     {
         id: 2,
@@ -203,14 +203,12 @@ function displayFeedback(userAnswer, correctAnswer) {
     feedbackDisplay.innerHTML = '';
     let feedbackHtml = `<div class="feedback-message">`;
     
-    // 评分部分
+    // ===== 评分部分 =====
+    // 将答案转换为小写并分割为单词，用于比较和评分
     const userWords = userAnswer.toLowerCase().match(/\b[\w']+\b/g) || [];
     
     // 保存用于比较的小写正确单词
     const correctWordsLower = correctAnswer.toLowerCase().match(/\b[\w']+\b/g) || [];
-    
-    // 保存原始大小写的正确单词，用于显示
-    const originalCaseWords = correctAnswer.match(/\b[\w']+\b/g) || [];
     
     // 计算用户单词频率
     const userWordFreq = {};
@@ -220,7 +218,6 @@ function displayFeedback(userAnswer, correctAnswer) {
     
     // 计算得分和缺失单词
     let score = 0;
-    const missingWords = [];
     const wordStatus = [];  // 记录每个单词的匹配状态
     
     // 检查每个正确单词是否出现在用户答案中
@@ -231,7 +228,6 @@ function displayFeedback(userAnswer, correctAnswer) {
             userWordFreq[word]--;  // 减少可用计数
             wordStatus[index] = true;  // 标记为匹配
         } else {
-            missingWords.push(word);
             wordStatus[index] = false;  // 标记为未匹配
         }
     });
@@ -239,7 +235,7 @@ function displayFeedback(userAnswer, correctAnswer) {
     // 更新分数显示
     scoreDisplay.textContent = `Score: ${score}/${correctWordsLower.length}`;
     
-    // 反馈显示部分
+    // ===== 反馈显示部分 =====
     if (score === correctWordsLower.length) {
         // 全部正确
         feedbackHtml += `<div class="success-message">Great job! You got all the words correct.</div>`;
@@ -251,27 +247,51 @@ function displayFeedback(userAnswer, correctAnswer) {
     // 显示正确答案（不管用户答对多少，都显示）
     feedbackHtml += `<p>Correct answer: `;
     
-    // 使用原始大小写单词显示结果
-    originalCaseWords.forEach((word, index) => {
-        // 使用之前保存的匹配状态来确定样式
-        if (!wordStatus[index]) {
-            feedbackHtml += `<span class="missing-words">${word}</span> `;
-        } else {
-            feedbackHtml += `<span class="correct-answer">${word}</span> `;
+    // ===== 保留原始格式的显示逻辑 =====
+    // 使用正则表达式保留原始单词和标点符号
+    const wordRegex = /\b[\w']+\b/g;
+    let lastIndex = 0;
+    let match;
+    let wordCounter = 0;
+    
+    // 创建临时字符串存储添加了样式的原始答案
+    let formattedAnswer = '';
+    
+    // 遍历原始答案中的每个单词
+    while ((match = wordRegex.exec(correctAnswer)) !== null) {
+        // 添加单词前的任何标点符号或空格
+        if (match.index > lastIndex) {
+            formattedAnswer += correctAnswer.substring(lastIndex, match.index);
         }
-    });
-
-    feedbackHtml = feedbackHtml.trim() + `.</p></div>`;
+        
+        // 添加单词，根据它是否正确使用不同的样式
+        if (!wordStatus[wordCounter]) {
+            formattedAnswer += `<span class="missing-words">${match[0]}</span>`;
+        } else {
+            formattedAnswer += `<span class="correct-answer">${match[0]}</span>`;
+        }
+        
+        // 更新位置
+        lastIndex = match.index + match[0].length;
+        wordCounter++;
+    }
+    
+    // 添加最后一个单词后的任何标点符号
+    if (lastIndex < correctAnswer.length) {
+        formattedAnswer += correctAnswer.substring(lastIndex);
+    }
+    
+    // 添加到反馈HTML
+    feedbackHtml += formattedAnswer;
+    feedbackHtml += `</p></div>`;
     feedbackDisplay.innerHTML = feedbackHtml;
     
     // 返回评分结果供 updateWrongQuestions 使用
     return {
         score,
         totalWords: correctWordsLower.length,
-        missingWords,
         userWords,
-        correctWordsLower,
-        originalCaseWords
+        correctWordsLower
     };
 }
 

@@ -109,7 +109,7 @@ function loadQuestion(index) {
     
     if (questions.length === 0 && appState.isReviewMode) {
         // 错题集为空
-        feedbackDisplay.innerHTML = `<div class="success-message">恭喜！您已经完成了所有错题的复习。</div>`;
+        feedbackDisplay.innerHTML = `<div class="success-message">Congratulations! You have completed reviewing all incorrect questions.</div>`;
         disableInterface(true);
         return;
     }
@@ -145,7 +145,7 @@ function loadQuestion(index) {
     }
 
     // 更新问题计数器
-    questionCounter.textContent = `问题 ${index + 1}/${questions.length}`;
+    questionCounter.textContent = `Question ${index + 1}/${questions.length}`;
     
     // 清除反馈
     feedbackDisplay.innerHTML = '';
@@ -164,10 +164,10 @@ function updateNavigationButtons() {
     
     // 更新错题集按钮状态
     if (appState.isReviewMode) {
-        wrongCollectionButton.textContent = '返回全部题目';
+        wrongCollectionButton.textContent = 'Return to All Questions';
         wrongCollectionButton.classList.add('active');
     } else {
-        wrongCollectionButton.textContent = '错题集';
+        wrongCollectionButton.textContent = 'Wrong Collection';
         wrongCollectionButton.classList.remove('active');
         wrongCollectionButton.disabled = appState.wrongQuestions.length === 0;
     }
@@ -194,13 +194,13 @@ function handleSubmit() {
     }
     
     // 保存用户答案
-    appState.userAnswers[originalIndex] = userAnswer;
+    //appState.userAnswers[originalIndex] = userAnswer;
     
     // 评分并显示反馈
     const result = scoreAnswer(userAnswer, question.answer);
     
     // 更新分数显示
-    scoreDisplay.textContent = `得分: ${result.score}/${result.totalWords}`;
+    scoreDisplay.textContent = `Score: ${result.score}/${result.totalWords}`;
     
     // 显示反馈
     displayFeedback(result);
@@ -246,18 +246,18 @@ function displayFeedback(result) {
     
     if (result.score === result.totalWords) {
         // 全部正确
-        feedbackDisplay.innerHTML = `<div class="success-message">太棒了！您答对了所有单词。</div>`;
+        feedbackDisplay.innerHTML = `<div class="success-message">Great job! You got all the words correct.</div>`;
     } else {
         // 部分正确或全部错误
         let feedbackHtml = `<div class="feedback-message">`;
-        feedbackHtml += `<p>您得到了 ${result.score}/${result.totalWords} 分。</p>`;
+        feedbackHtml += `<p>You scored ${result.score}/${result.totalWords} points.</p>`;
         
         if (result.missingWords.length > 0) {
-            feedbackHtml += `<p>您漏掉的单词: <span class="missing-words">${result.missingWords.join(', ')}</span></p>`;
+            feedbackHtml += `<p>Words you missed: <span class="missing-words">${result.missingWords.join(', ')}</span></p>`;
         }
         
         // 显示正确答案
-        feedbackHtml += `<p>正确答案: <span class="correct-answer">${result.correctWords.join(' ')}</span></p>`;
+        feedbackHtml += `<p>Correct answer: <span class="correct-answer">${result.correctWords.join(' ')}</span></p>`;
         feedbackHtml += `</div>`;
         
         feedbackDisplay.innerHTML = feedbackHtml;
@@ -307,7 +307,7 @@ function toggleReviewMode() {
             loadQuestion(0);
         } else {
             // 没有错题，显示提示
-            feedbackDisplay.innerHTML = `<div class="info-message">您目前没有错题需要复习。</div>`;
+            feedbackDisplay.innerHTML = `<div class="info-message">You currently have no incorrect questions to review.</div>`;
         }
     }
 }

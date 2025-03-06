@@ -17,7 +17,6 @@ const wfdQuestions = [
 const appState = {
     currentQuestionIndex: 0,
     hasPlayed: false,
-    userAnswers: [],
     wrongQuestions: [],
     isReviewMode: false,
     reviewIndex: 0
@@ -49,8 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreDisplay = document.getElementById('score-display');
     feedbackDisplay = document.getElementById('feedback-display');
 
-    // 初始化用户答案数组
-    wfdQuestions.forEach(() => appState.userAnswers.push(''));
 
     // 设置事件监听器
     setupEventListeners();
@@ -136,14 +133,8 @@ function loadQuestion(index) {
     // 设置音频源
     audioPlayer.src = question.audioSrc;
     
-    // 显示之前输入的答案(如果有)
-    if (appState.isReviewMode) {
-        const originalIndex = wfdQuestions.findIndex(q => q.id === question.id);
-        answerInput.value = appState.userAnswers[originalIndex] || '';
-    } else {
-        answerInput.value = appState.userAnswers[index] || '';
-    }
 
+    answerInput.value = '';
     // 更新问题计数器
     questionCounter.textContent = `Question ${index + 1}/${questions.length}`;
     
@@ -193,8 +184,7 @@ function handleSubmit() {
         originalIndex = wfdQuestions.findIndex(q => q.id === question.id);
     }
     
-    // 保存用户答案
-    //appState.userAnswers[originalIndex] = userAnswer;
+
     
     // 评分并显示反馈
     const result = scoreAnswer(userAnswer, question.answer);
@@ -217,7 +207,8 @@ function scoreAnswer(userAnswer, correctAnswer) {
     // 将答案转换为小写并分割为单词
     const userWords = userAnswer.toLowerCase().match(/\b[\w']+\b/g) || [];
     const correctWords = correctAnswer.toLowerCase().match(/\b[\w']+\b/g) || [];
-    
+    console.log("Correct Answer:", correctAnswer);
+    console.log("User Answer:", userAnswer);
     // 计算得分和缺失/错误的单词
     let score = 0;
     const missingWords = [];
@@ -243,25 +234,27 @@ function scoreAnswer(userAnswer, correctAnswer) {
 // 显示反馈
 function displayFeedback(result) {
     feedbackDisplay.innerHTML = '';
-    
+    let feedbackHtml = `<div class="feedback-message">`;
+
     if (result.score === result.totalWords) {
         // 全部正确
-        feedbackDisplay.innerHTML = `<div class="success-message">Great job! You got all the words correct.</div>`;
+        feedbackHtml += `<div class="success-message">Great job! You got all the words correct.</div>`;
     } else {
         // 部分正确或全部错误
-        let feedbackHtml = `<div class="feedback-message">`;
         feedbackHtml += `<p>You scored ${result.score}/${result.totalWords} points.</p>`;
-        
-        if (result.missingWords.length > 0) {
-            feedbackHtml += `<p>Words you missed: <span class="missing-words">${result.missingWords.join(', ')}</span></p>`;
-        }
-        
-        // 显示正确答案
-        feedbackHtml += `<p>Correct answer: <span class="correct-answer">${result.correctWords.join(' ')}</span></p>`;
-        feedbackHtml += `</div>`;
-        
-        feedbackDisplay.innerHTML = feedbackHtml;
     }
+    // 显示正确答案（不管用户答对多少，都显示）
+    feedbackHtml += `<p>Correct answer: `;
+    result.correctWords.forEach(word => {
+        if (result.missingWords.includes(word)) {
+            feedbackHtml += `<span class="missing-words">${word}</span> `;
+        } else {
+            feedbackHtml += `<span class="correct-answer">${word}</span> `;
+        }
+    });
+    feedbackHtml += `</p></div>`;
+    feedbackDisplay.innerHTML = feedbackHtml;
+
 }
 
 // 更新错题集

@@ -1,0 +1,22 @@
+{
+  "name": "modern-website-demo",
+  "version": "1.0.0",
+  "description": "A modern responsive website demo",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve",
+    "dev": "live-server"
+  },
+  "keywords": [
+    "website",
+    "demo",
+    "responsive",
+    "modern"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.0"
+  }
+} 

@@ -19,7 +19,8 @@ const appState = {
     hasPlayed: false,
     wrongQuestions: [],
     isReviewMode: false,
-    reviewIndex: 0
+    reviewIndex: 0,
+    userAnswers: []
 };
 
 // DOM元素
@@ -184,85 +185,106 @@ function handleSubmit() {
         originalIndex = wfdQuestions.findIndex(q => q.id === question.id);
     }
     
-
+    // 保存用户答案
+    appState.userAnswers[originalIndex] = userAnswer;
     
-    // 评分并显示反馈
-    const result = scoreAnswer(userAnswer, question.answer);
+    // 计算得分并显示反馈，同时获取结果
+    const result = displayFeedback(userAnswer, question.answer);
     
-    // 更新分数显示
-    scoreDisplay.textContent = `Score: ${result.score}/${result.totalWords}`;
-    
-    // 显示反馈
-    displayFeedback(result);
-    
-    // 更新错题集
+    // 更新错题集，传入计算好的得分结果
     updateWrongQuestions(question, result);
     
     // 更新导航按钮状态
     updateNavigationButtons();
 }
 
-// 评分函数
-function scoreAnswer(userAnswer, correctAnswer) {
-    // 将答案转换为小写并分割为单词
+// 合并的评分和反馈显示函数
+function displayFeedback(userAnswer, correctAnswer) {
+    feedbackDisplay.innerHTML = '';
+    let feedbackHtml = `<div class="feedback-message">`;
+    
+    // 评分部分
     const userWords = userAnswer.toLowerCase().match(/\b[\w']+\b/g) || [];
-    const correctWords = correctAnswer.toLowerCase().match(/\b[\w']+\b/g) || [];
-    console.log("Correct Answer:", correctAnswer);
-    console.log("User Answer:", userAnswer);
-    // 计算得分和缺失/错误的单词
+    
+    // 保存用于比较的小写正确单词
+    const correctWordsLower = correctAnswer.toLowerCase().match(/\b[\w']+\b/g) || [];
+    
+    // 保存原始大小写的正确单词，用于显示
+    const originalCaseWords = correctAnswer.match(/\b[\w']+\b/g) || [];
+    
+    // 计算用户单词频率
+    const userWordFreq = {};
+    userWords.forEach(word => {
+        userWordFreq[word] = (userWordFreq[word] || 0) + 1;
+    });
+    
+    // 计算得分和缺失单词
     let score = 0;
     const missingWords = [];
+    const wordStatus = [];  // 记录每个单词的匹配状态
     
     // 检查每个正确单词是否出现在用户答案中
-    correctWords.forEach(word => {
-        if (userWords.includes(word)) {
+    correctWordsLower.forEach((word, index) => {
+        // 检查用户答案中是否还有足够的这个单词
+        if (userWordFreq[word] && userWordFreq[word] > 0) {
             score++;
+            userWordFreq[word]--;  // 减少可用计数
+            wordStatus[index] = true;  // 标记为匹配
         } else {
             missingWords.push(word);
+            wordStatus[index] = false;  // 标记为未匹配
         }
     });
     
-    return {
-        score,
-        totalWords: correctWords.length,
-        missingWords,
-        userWords,
-        correctWords
-    };
-}
-
-// 显示反馈
-function displayFeedback(result) {
-    feedbackDisplay.innerHTML = '';
-    let feedbackHtml = `<div class="feedback-message">`;
-
-    if (result.score === result.totalWords) {
+    // 更新分数显示
+    scoreDisplay.textContent = `Score: ${score}/${correctWordsLower.length}`;
+    
+    // 反馈显示部分
+    if (score === correctWordsLower.length) {
         // 全部正确
         feedbackHtml += `<div class="success-message">Great job! You got all the words correct.</div>`;
     } else {
         // 部分正确或全部错误
-        feedbackHtml += `<p>You scored ${result.score}/${result.totalWords} points.</p>`;
+        feedbackHtml += `<p>You scored ${score}/${correctWordsLower.length} points.</p>`;
     }
+    
     // 显示正确答案（不管用户答对多少，都显示）
     feedbackHtml += `<p>Correct answer: `;
-    result.correctWords.forEach(word => {
-        if (result.missingWords.includes(word)) {
+    
+    // 使用原始大小写单词显示结果
+    originalCaseWords.forEach((word, index) => {
+        // 使用之前保存的匹配状态来确定样式
+        if (!wordStatus[index]) {
             feedbackHtml += `<span class="missing-words">${word}</span> `;
         } else {
             feedbackHtml += `<span class="correct-answer">${word}</span> `;
         }
     });
-    feedbackHtml += `</p></div>`;
-    feedbackDisplay.innerHTML = feedbackHtml;
 
+    feedbackHtml = feedbackHtml.trim() + `.</p></div>`;
+    feedbackDisplay.innerHTML = feedbackHtml;
+    
+    // 返回评分结果供 updateWrongQuestions 使用
+    return {
+        score,
+        totalWords: correctWordsLower.length,
+        missingWords,
+        userWords,
+        correctWordsLower,
+        originalCaseWords
+    };
 }
 
 // 更新错题集
 function updateWrongQuestions(question, result) {
     const questionId = question.id;
     
+    // 直接使用传入的结果，避免重复计算
+    const score = result.score;
+    const totalWords = result.totalWords;
+    
     // 如果得分不满分，加入错题集
-    if (result.score < result.totalWords) {
+    if (score < totalWords) {
         // 检查错题集中是否已经有这个问题
         const existingIndex = appState.wrongQuestions.findIndex(q => q.id === questionId);
         

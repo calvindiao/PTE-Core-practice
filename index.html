@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PTE Core Practice - RS</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/rs.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -27,34 +28,86 @@
         </nav>
     </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Repeat Sentence Practice</h1>
-            <p>Improve your listening and speaking skills with our RS exercises</p>
-            <button class="cta-button">Start Practice</button>
+    <main>
+        <div class="rs-container">
+            <div class="rs-header">
+                <h1>Repeat Sentence</h1>
+                <p>Listen to the audio and repeat what you hear. You can control the audio with keyboard shortcuts.</p>
+            </div>
+            
+            <div class="audio-player-section">
+                <div class="audio-player-container">
+                    <div class="player-controls">
+                        <button id="rewind-button" class="control-btn" title="Rewind 5 seconds">
+                            <i class="fas fa-backward"></i>
+                        </button>
+                        <button id="play-button" class="control-btn play-btn" title="Play/Pause">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button id="forward-button" class="control-btn" title="Forward 5 seconds">
+                            <i class="fas fa-forward"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div id="progress"></div>
+                        </div>
+                        <div class="time-display">
+                            <span id="current-time">0:00</span>
+                            <span>/</span>
+                            <span id="duration">0:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="player-options">
+                        <div class="subtitle-toggle">
+                            <label class="switch">
+                                <input type="checkbox" id="subtitle-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                            <span>Subtitles</span>
+                        </div>
+                        <div class="playback-speed">
+                            <select id="speed-selector">
+                                <option value="0.5">0.5x</option>
+                                <option value="0.75">0.75x</option>
+                                <option value="1" selected>1x</option>
+                                <option value="1.25">1.25x</option>
+                                <option value="1.5">1.5x</option>
+                                <option value="2">2x</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="subtitle-display" class="subtitle-container">
+                    <!-- Subtitles will be displayed here -->
+                </div>
+            </div>
+            
+            <div class="keyboard-shortcuts-info">
+                <p><i class="fas fa-keyboard"></i> Keyboard shortcuts:</p>
+                <ul>
+                    <li><span class="key">Space</span> - Play/Pause</li>
+                    <li><span class="key">←</span> - Rewind 5 seconds</li>
+                    <li><span class="key">→</span> - Forward 5 seconds</li>
+                </ul>
+            </div>
+            
+            <div class="navigation-section">
+                <div class="question-navigation">
+                    <button id="prev-button" class="btn btn-secondary">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <div id="question-counter">Question 1/1</div>
+                    <button id="next-button" class="btn btn-secondary">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-    </section>
-
-    <section class="features">
-        <h2 class="section-title">RS Features</h2>
-        <div class="features-container">
-            <div class="feature-card">
-                <i class="fas fa-headphones"></i>
-                <h3>Audio Samples</h3>
-                <p>Practice with real exam-like audio samples.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-microphone"></i>
-                <h3>Voice Recording</h3>
-                <p>Record your responses and compare with the original.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-chart-line"></i>
-                <h3>Progress Tracking</h3>
-                <p>Monitor your improvement over time.</p>
-            </div>
-        </div>
-    </section>
+    </main>
 
     <footer>
         <div class="footer-content">
@@ -87,5 +140,6 @@
     </footer>
 
     <script src="js/script.js"></script>
+    <script src="js/rs.js"></script>
 </body>
 </html> 

@@ -1,29 +1,29 @@
-// WFD题库 - 包含音频路径和正确答案
+// Question bank - includes audio paths and correct answers
 const wfdQuestions = [
     {
         id: 1,
         audioSrc: "/assets/WFD material/Please get us a meeting room for the next hour.mp3",
-        answer: "Please get, us a meeting room for the next hour."
+        answer: "Please get us a meeting room for the next hour."
     },
     {
         id: 2,
         audioSrc: "/assets/WFD material/Communication skills have become more important in recent years.mp3",
         answer: "Communication skills have become more important in recent years."
     }
-    // 后续可添加更多题目
+    // Add more questions as needed
 ];
 
-// 应用状态
+// App state
 const appState = {
     currentQuestionIndex: 0,
     hasPlayed: false,
+    userAnswers: [],
     wrongQuestions: [],
     isReviewMode: false,
-    reviewIndex: 0,
-    userAnswers: []
+    reviewIndex: 0
 };
 
-// DOM元素
+// DOM elements
 let audioPlayer;
 let playButton;
 let answerInput;
@@ -35,9 +35,9 @@ let questionCounter;
 let scoreDisplay;
 let feedbackDisplay;
 
-// 初始化应用
+// Initialize app
 document.addEventListener('DOMContentLoaded', () => {
-    // 获取DOM元素
+    // Get DOM elements
     audioPlayer = document.getElementById('audio-player');
     playButton = document.getElementById('play-button');
     answerInput = document.getElementById('answer-input');
@@ -49,51 +49,53 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreDisplay = document.getElementById('score-display');
     feedbackDisplay = document.getElementById('feedback-display');
 
+    // Initialize user answers array
+    wfdQuestions.forEach(() => appState.userAnswers.push(''));
 
-    // 设置事件监听器
+    // Set up event listeners
     setupEventListeners();
     
-    // 加载第一个问题
+    // Load first question
     loadQuestion(0);
 });
 
-// 设置事件监听器
+// Set up event listeners
 function setupEventListeners() {
-    // 播放按钮
+    // Play button
     playButton.addEventListener('click', () => {
         if (!appState.hasPlayed) {
             audioPlayer.play();
             appState.hasPlayed = true;
             playButton.disabled = true;
-            // 变更按钮样式以表示已播放
+            // Change button style to indicate played state
             playButton.classList.add('played');
         }
     });
 
-    // 音频播放完成事件
+    // Audio playback complete
     audioPlayer.addEventListener('ended', () => {
         answerInput.focus();
     });
 
-    // 提交按钮
+    // Submit button
     submitButton.addEventListener('click', handleSubmit);
 
-    // 上一题按钮
+    // Previous button
     prevButton.addEventListener('click', () => {
         navigateQuestion(-1);
     });
 
-    // 下一题按钮
+    // Next button
     nextButton.addEventListener('click', () => {
         navigateQuestion(1);
     });
 
-    // 错题集按钮
+    // Wrong collection button
     wrongCollectionButton.addEventListener('click', () => {
         toggleReviewMode();
     });
 
-    // 输入框回车提交
+    // Enter key submission
     answerInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             handleSubmit();
@@ -101,12 +103,12 @@ function setupEventListeners() {
     });
 }
 
-// 加载问题
+// Load question
 function loadQuestion(index) {
     let questions = appState.isReviewMode ? appState.wrongQuestions : wfdQuestions;
     
     if (questions.length === 0 && appState.isReviewMode) {
-        // 错题集为空
+        // Empty wrong collection
         feedbackDisplay.innerHTML = `<div class="success-message">Congratulations! You have completed reviewing all incorrect questions.</div>`;
         disableInterface(true);
         return;
@@ -117,7 +119,7 @@ function loadQuestion(index) {
 
     const currentIndex = appState.isReviewMode ? appState.reviewIndex : appState.currentQuestionIndex;
     
-    // 更新当前问题索引
+    // Update current question index
     if (appState.isReviewMode) {
         appState.reviewIndex = index;
     } else {
@@ -126,27 +128,33 @@ function loadQuestion(index) {
 
     const question = questions[index];
     
-    // 重置状态
+    // Reset state
     appState.hasPlayed = false;
     playButton.disabled = false;
     playButton.classList.remove('played');
     
-    // 设置音频源
+    // Set audio source
     audioPlayer.src = question.audioSrc;
     
+    // Show previous answer if available
+    if (appState.isReviewMode) {
+        const originalIndex = wfdQuestions.findIndex(q => q.id === question.id);
+        answerInput.value = appState.userAnswers[originalIndex] || '';
+    } else {
+        answerInput.value = appState.userAnswers[index] || '';
+    }
 
-    answerInput.value = '';
-    // 更新问题计数器
+    // Update question counter
     questionCounter.textContent = `Question ${index + 1}/${questions.length}`;
     
-    // 清除反馈
+    // Clear feedback
     feedbackDisplay.innerHTML = '';
     
-    // 更新按钮状态
+    // Update button states
     updateNavigationButtons();
 }
 
-// 更新导航按钮状态
+// Update navigation button states
 function updateNavigationButtons() {
     const questions = appState.isReviewMode ? appState.wrongQuestions : wfdQuestions;
     const currentIndex = appState.isReviewMode ? appState.reviewIndex : appState.currentQuestionIndex;
@@ -154,7 +162,7 @@ function updateNavigationButtons() {
     prevButton.disabled = currentIndex === 0;
     nextButton.disabled = currentIndex === questions.length - 1;
     
-    // 更新错题集按钮状态
+    // Update wrong collection button
     if (appState.isReviewMode) {
         wrongCollectionButton.textContent = 'Return to All Questions';
         wrongCollectionButton.classList.add('active');
@@ -165,13 +173,13 @@ function updateNavigationButtons() {
     }
 }
 
-// 切换题目
+// Navigate between questions
 function navigateQuestion(direction) {
     const currentIndex = appState.isReviewMode ? appState.reviewIndex : appState.currentQuestionIndex;
     loadQuestion(currentIndex + direction);
 }
 
-// 处理提交答案
+// Handle answer submission
 function handleSubmit() {
     const questions = appState.isReviewMode ? appState.wrongQuestions : wfdQuestions;
     const currentIndex = appState.isReviewMode ? appState.reviewIndex : appState.currentQuestionIndex;
@@ -179,114 +187,110 @@ function handleSubmit() {
     
     const userAnswer = answerInput.value.trim();
     
-    // 如果在复习模式，找到原题索引
+    // Find original index if in review mode
     let originalIndex = currentIndex;
     if (appState.isReviewMode) {
         originalIndex = wfdQuestions.findIndex(q => q.id === question.id);
     }
     
-    // 保存用户答案
+    // Save user answer
     appState.userAnswers[originalIndex] = userAnswer;
     
-    // 计算得分并显示反馈，同时获取结果
+    // Calculate score and display feedback
     const result = displayFeedback(userAnswer, question.answer);
     
-    // 更新错题集，传入计算好的得分结果
+    // Update wrong collection
     updateWrongQuestions(question, result);
     
-    // 更新导航按钮状态
+    // Update navigation buttons
     updateNavigationButtons();
 }
 
-// 合并的评分和反馈显示函数
+// Score answer and display feedback
 function displayFeedback(userAnswer, correctAnswer) {
     feedbackDisplay.innerHTML = '';
     let feedbackHtml = `<div class="feedback-message">`;
     
-    // ===== 评分部分 =====
-    // 将答案转换为小写并分割为单词，用于比较和评分
+    // Scoring section
     const userWords = userAnswer.toLowerCase().match(/\b[\w']+\b/g) || [];
     
-    // 保存用于比较的小写正确单词
+    // Lowercase correct words for comparison
     const correctWordsLower = correctAnswer.toLowerCase().match(/\b[\w']+\b/g) || [];
     
-    // 计算用户单词频率
+    // Count word frequency in user's answer
     const userWordFreq = {};
     userWords.forEach(word => {
         userWordFreq[word] = (userWordFreq[word] || 0) + 1;
     });
     
-    // 计算得分和缺失单词
+    // Calculate score and track word status
     let score = 0;
-    const wordStatus = [];  // 记录每个单词的匹配状态
+    const wordStatus = [];
     
-    // 检查每个正确单词是否出现在用户答案中
+    // Check each correct word
     correctWordsLower.forEach((word, index) => {
-        // 检查用户答案中是否还有足够的这个单词
+        // Check if word is available in user answer
         if (userWordFreq[word] && userWordFreq[word] > 0) {
             score++;
-            userWordFreq[word]--;  // 减少可用计数
-            wordStatus[index] = true;  // 标记为匹配
+            userWordFreq[word]--;  // Decrease available count
+            wordStatus[index] = true;  // Mark as matched
         } else {
-            wordStatus[index] = false;  // 标记为未匹配
+            wordStatus[index] = false;  // Mark as unmatched
         }
     });
     
-    // 更新分数显示
+    // Update score display
     scoreDisplay.textContent = `Score: ${score}/${correctWordsLower.length}`;
     
-    // ===== 反馈显示部分 =====
+    // Feedback display section
     if (score === correctWordsLower.length) {
-        // 全部正确
+        // All correct
         feedbackHtml += `<div class="success-message">Great job! You got all the words correct.</div>`;
     } else {
-        // 部分正确或全部错误
+        // Partially correct or all wrong
         feedbackHtml += `<p>You scored ${score}/${correctWordsLower.length} points.</p>`;
     }
     
-    // 显示正确答案（不管用户答对多少，都显示）
+    // Display correct answer
     feedbackHtml += `<p>Correct answer: `;
     
-    // ===== 保留原始格式的显示逻辑 =====
-    // 使用正则表达式保留原始单词和标点符号
+    // Preserve original formatting when displaying
     const wordRegex = /\b[\w']+\b/g;
     let lastIndex = 0;
     let match;
     let wordCounter = 0;
     
-    // 创建临时字符串存储添加了样式的原始答案
     let formattedAnswer = '';
     
-    // 遍历原始答案中的每个单词
+    // Process each word in original answer
     while ((match = wordRegex.exec(correctAnswer)) !== null) {
-        // 添加单词前的任何标点符号或空格
+        // Add any punctuation or spaces before the word
         if (match.index > lastIndex) {
             formattedAnswer += correctAnswer.substring(lastIndex, match.index);
         }
         
-        // 添加单词，根据它是否正确使用不同的样式
+        // Add word with appropriate highlighting
         if (!wordStatus[wordCounter]) {
             formattedAnswer += `<span class="missing-words">${match[0]}</span>`;
         } else {
             formattedAnswer += `<span class="correct-answer">${match[0]}</span>`;
         }
         
-        // 更新位置
+        // Update position trackers
         lastIndex = match.index + match[0].length;
         wordCounter++;
     }
     
-    // 添加最后一个单词后的任何标点符号
+    // Add any punctuation after the last word
     if (lastIndex < correctAnswer.length) {
         formattedAnswer += correctAnswer.substring(lastIndex);
     }
     
-    // 添加到反馈HTML
     feedbackHtml += formattedAnswer;
     feedbackHtml += `</p></div>`;
     feedbackDisplay.innerHTML = feedbackHtml;
     
-    // 返回评分结果供 updateWrongQuestions 使用
+    // Return results for wrong collection update
     return {
         score,
         totalWords: correctWordsLower.length,
@@ -295,59 +299,59 @@ function displayFeedback(userAnswer, correctAnswer) {
     };
 }
 
-// 更新错题集
+// Update wrong collection
 function updateWrongQuestions(question, result) {
     const questionId = question.id;
     
-    // 直接使用传入的结果，避免重复计算
+    // Use passed results
     const score = result.score;
     const totalWords = result.totalWords;
     
-    // 如果得分不满分，加入错题集
+    // Add to wrong collection if not perfect score
     if (score < totalWords) {
-        // 检查错题集中是否已经有这个问题
+        // Check if already in wrong collection
         const existingIndex = appState.wrongQuestions.findIndex(q => q.id === questionId);
         
         if (existingIndex === -1) {
-            // 不在错题集中，添加
+            // Add to wrong collection
             appState.wrongQuestions.push(question);
         }
     } else {
-        // 得满分了，从错题集中移除
+        // Remove from wrong collection if perfect score
         const existingIndex = appState.wrongQuestions.findIndex(q => q.id === questionId);
         
         if (existingIndex !== -1) {
-            // 从错题集中移除
+            // Remove from wrong collection
             appState.wrongQuestions.splice(existingIndex, 1);
         }
         
-        // 如果在复习模式并且错题集为空，回到普通模式
+        // Return to normal mode if review mode and collection empty
         if (appState.isReviewMode && appState.wrongQuestions.length === 0) {
             toggleReviewMode();
         }
     }
 }
 
-// 切换复习模式
+// Toggle review mode
 function toggleReviewMode() {
     if (appState.isReviewMode) {
-        // 从复习模式切换到普通模式
+        // Switch from review mode to normal mode
         appState.isReviewMode = false;
         loadQuestion(appState.currentQuestionIndex);
     } else {
-        // 从普通模式切换到复习模式
+        // Switch from normal mode to review mode
         if (appState.wrongQuestions.length > 0) {
             appState.isReviewMode = true;
             appState.reviewIndex = 0;
             loadQuestion(0);
         } else {
-            // 没有错题，显示提示
+            // No wrong questions to review
             feedbackDisplay.innerHTML = `<div class="info-message">You currently have no incorrect questions to review.</div>`;
         }
     }
 }
 
-// 禁用/启用界面
+// Enable/disable interface
 function disableInterface(disabled) {
     playButton.disabled = disabled;
     answerInput.disabled = disabled;

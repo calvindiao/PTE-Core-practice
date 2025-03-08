@@ -2,16 +2,301 @@
 const wfdQuestions = [
     {
         id: 1,
-        audioSrc: "/assets/WFD material/Please get us a meeting room for the next hour.mp3",
-        answer: "Please get us a meeting room for the next hour."
+        audioSrc: "/assets/WFD material/Please get us a meeting room for the next hour.mp3"
     },
     {
         id: 2,
-        audioSrc: "/assets/WFD material/Communication skills have become more important in recent years.mp3",
-        answer: "Communication skills have become more important in recent years."
+        audioSrc: "/assets/WFD material/Communication skills have become more important in recent years.mp3"
+    },
+    {
+        id: 3,
+        audioSrc: "/assets/WFD material/Before preparing any food, be sure to wash your hands well.mp3"
+    },
+    {
+        id: 4,
+        audioSrc: "/assets/WFD material/I want to make an appointment with the manager.mp3"
+    },
+    {
+        id: 5,
+        audioSrc: "/assets/WFD material/The weather has been lovely this time of the year.mp3"
+    },
+    {
+        id: 6,
+        audioSrc: "/assets/WFD material/Please close the door behind you when you leave the room.mp3"
+    },
+    {
+        id: 7,
+        audioSrc: "/assets/WFD material/There was a lot of traffic this morning.mp3"
+    },
+    {
+        id: 8,
+        audioSrc: "/assets/WFD material/The restroom is down the hall and on the right.mp3"
+    },
+    {
+        id: 9,
+        audioSrc: "/assets/WFD material/The teacher explains the homework to the students.mp3"
+    },
+    {
+        id: 10,
+        audioSrc: "/assets/WFD material/At that time, few people moved through the town to the village.mp3"
+    },
+    {
+        id: 11,
+        audioSrc: "/assets/WFD material/The fiction books have just passed to the counter.mp3"
+    },
+    {
+        id: 12,
+        audioSrc: "/assets/WFD material/You have to make an appointment with your doctor.mp3"
+    },
+    {
+        id: 13,
+        audioSrc: "/assets/WFD material/The students will meet their new teacher after summer vacation.mp3"
+    },
+    {
+        id: 14,
+        audioSrc: "/assets/WFD material/Please move us to the meeting room for the next hour.mp3"
+    },
+    {
+        id: 15,
+        audioSrc: "/assets/WFD material/You must call your doctor to make an appointment.mp3"
+    },
+    {
+        id: 16,
+        audioSrc: "/assets/WFD material/Please make an appointment with your tutor about work.mp3"
+    },
+    {
+        id: 17,
+        audioSrc: "/assets/WFD material/Rail transport is becoming more and more popular.mp3"
+    },
+    {
+        id: 18,
+        audioSrc: "/assets/WFD material/You can keep your bags in the back room.mp3"
+    },
+    {
+        id: 19,
+        audioSrc: "/assets/WFD material/The weather used to be lovely at this time of the year.mp3"
+    },
+    {
+        id: 20,
+        audioSrc: "/assets/WFD material/Everyone in this room needs to follow the rules.mp3"
+    },
+    {
+        id: 21,
+        audioSrc: "/assets/WFD material/Before preparing food, please make sure to wash your hands.mp3"
+    },
+    {
+        id: 22,
+        audioSrc: "/assets/WFD material/The teacher explained the homework to the class.mp3"
+    },
+    {
+        id: 23,
+        audioSrc: "/assets/WFD material/You should meet me in the lecture theater room.mp3"
+    },
+    {
+        id: 24,
+        audioSrc: "/assets/WFD material/At that time, few people moved from towns to villages.mp3"
+    },
+    {
+        id: 25,
+        audioSrc: "/assets/WFD material/Students of the first year usually live on campus.mp3"
+    },
+    {
+        id: 26,
+        audioSrc: "/assets/WFD material/The fiction books are just past the counter.mp3"
+    },
+    {
+        id: 27,
+        audioSrc: "/assets/WFD material/The teacher asked the group to complete the task.mp3"
+    },
+    {
+        id: 28,
+        audioSrc: "/assets/WFD material/There were a lot of traffic jams on the road this morning.mp3"
+    },
+    {
+        id: 29,
+        audioSrc: "/assets/WFD material/The school canteen sells a large variety of water and food.mp3"
+    },
+    {
+        id: 30,
+        audioSrc: "/assets/WFD material/Please turn off the lights to save the energy.mp3"
+    },
+    {
+        id: 31,
+        audioSrc: "/assets/WFD material/Traffic is the main cause of air pollution in many cities.mp3"
+    },
+    {
+        id: 32,
+        audioSrc: "/assets/WFD material/You will get your uniform on the first day.mp3"
+    },
+    {
+        id: 33,
+        audioSrc: "/assets/WFD material/We should have a meeting to discuss and report.mp3"
+    },
+    {
+        id: 34,
+        audioSrc: "/assets/WFD material/Sales figures for last year were better than expected.mp3"
+    },
+    {
+        id: 35,
+        audioSrc: "/assets/WFD material/The university canteen offers different healthy meal options.mp3"
+    },
+    {
+        id: 36,
+        audioSrc: "/assets/WFD material/Employment opportunities available in engineering are increasing rapidly.mp3"
+    },
+    {
+        id: 37,
+        audioSrc: "/assets/WFD material/We cannot consider an increase in price at this stage.mp3"
+    },
+    {
+        id: 38,
+        audioSrc: "/assets/WFD material/We should have a meeting to discuss the report.mp3"
+    },
+    {
+        id: 39,
+        audioSrc: "/assets/WFD material/Our culture influences the choices we make.mp3"
+    },
+    {
+        id: 40,
+        audioSrc: "/assets/WFD material/Exam results will be published on the noticeboard.mp3"
+    },
+    {
+        id: 41,
+        audioSrc: "/assets/WFD material/Atoms are the central building blocks of matter.mp3"
+    },
+    {
+        id: 42,
+        audioSrc: "/assets/WFD material/There will be a meeting for the first-year students on Friday.mp3"
+    },
+    {
+        id: 43,
+        audioSrc: "/assets/WFD material/The stairs are to the left of the elevator.mp3"
+    },
+    {
+        id: 44,
+        audioSrc: "/assets/WFD material/Restrooms are down the entrance and to the right.mp3"
+    },
+    {
+        id: 45,
+        audioSrc: "/assets/WFD material/Time is needed to complete the lecture.mp3"
+    },
+    {
+        id: 46,
+        audioSrc: "/assets/WFD material/Restaurants are down to the hall and next to the right.mp3"
+    },
+    {
+        id: 47,
+        audioSrc: "/assets/WFD material/Make sure you wash your hands before preparing the food.mp3"
+    },
+    {
+        id: 48,
+        audioSrc: "/assets/WFD material/You should draw your graph on a separate page.mp3"
+    },
+    {
+        id: 49,
+        audioSrc: "/assets/WFD material/You can ask your tutor for further assistance.mp3"
+    },
+    {
+        id: 50,
+        audioSrc: "/assets/WFD material/You are trained to be a special journalist.mp3"
+    },
+    {
+        id: 51,
+        audioSrc: "/assets/WFD material/We can have a lecture on the morning of Thursday.mp3"
+    },
+    {
+        id: 52,
+        audioSrc: "/assets/WFD material/We can all meet in the office after the lecture.mp3"
+    },
+    {
+        id: 53,
+        audioSrc: "/assets/WFD material/The digital revolution has changed the way we read.mp3"
+    },
+    {
+        id: 54,
+        audioSrc: "/assets/WFD material/Before the refrigerator was invented, people used underground icehouses.mp3"
+    },
+    {
+        id: 55,
+        audioSrc: "/assets/WFD material/The nation achieved prosperity by opening its ports for trade.mp3"
+    },
+    {
+        id: 56,
+        audioSrc: "/assets/WFD material/Understanding visual media has never been more challenging.mp3"
+    },
+    {
+        id: 57,
+        audioSrc: "/assets/WFD material/Online courses allow students to work on their own paces.mp3"
+    },
+    {
+        id: 58,
+        audioSrc: "/assets/WFD material/In my opinion, this car should be repaired soon.mp3"
+    },
+    {
+        id: 59,
+        audioSrc: "/assets/WFD material/You can get your coffee and tea in the lounge room.mp3"
+    },
+    {
+        id: 60,
+        audioSrc: "/assets/WFD material/The teacher asked the group to commence the task.mp3"
+    },
+    {
+        id: 61,
+        audioSrc: "/assets/WFD material/The island is located at the south end of the bay.mp3"
+    },
+    {
+        id: 62,
+        audioSrc: "/assets/WFD material/Please click the logo above to enter the site.mp3"
+    },
+    {
+        id: 63,
+        audioSrc: "/assets/WFD material/The camera can identify eyes and focus on them.mp3"
+    },
+    {
+        id: 64,
+        audioSrc: "/assets/WFD material/This article refers to a number of interesting experiments.mp3"
+    },
+    {
+        id: 65,
+        audioSrc: "/assets/WFD material/You should submit your team papers to the general office.mp3"
+    },
+    {
+        id: 66,
+        audioSrc: "/assets/WFD material/All students have their own styles of learning.mp3"
+    },
+    {
+        id: 67,
+        audioSrc: "/assets/WFD material/Stock prediction can be very capricious even for professionals.mp3"
+    },
+    {
+        id: 68,
+        audioSrc: "/assets/WFD material/New classrooms will be put into use next month.mp3"
+    },
+    {
+        id: 69,
+        audioSrc: "/assets/WFD material/You need to pass the written exam for the driver's license.mp3"
+    },
+    {
+        id: 70,
+        audioSrc: "/assets/WFD material/There will be a guest lecturer in the next class.mp3"
+    },
+    {
+        id: 71,
+        audioSrc: "/assets/WFD material/The falling birth rate means the number of students drops.mp3"
+    },
+    {
+        id: 72,
+        audioSrc: "/assets/WFD material/In my opinion, this car should be repaired soon..mp3"
     }
-    // Add more questions as needed
 ];
+
+// Function to extract answer from audio path
+function extractAnswerFromPath(audioPath) {
+    // Extract the filename without extension from the path
+    const filename = audioPath.split('/').pop(); // Get the last part after the slash
+    const answerText = filename.replace('.mp3', '.'); // Remove the extension
+    return answerText;
+}
 
 // App state
 const appState = {
@@ -137,18 +422,21 @@ function loadQuestion(index) {
     audioPlayer.src = question.audioSrc;
     
     // Show previous answer if available
-    if (appState.isReviewMode) {
-        const originalIndex = wfdQuestions.findIndex(q => q.id === question.id);
-        answerInput.value = appState.userAnswers[originalIndex] || '';
-    } else {
-        answerInput.value = appState.userAnswers[index] || '';
-    }
-
+    // if (appState.isReviewMode) {
+    //     const originalIndex = wfdQuestions.findIndex(q => q.id === question.id);
+    //     answerInput.value = appState.userAnswers[originalIndex] || '';
+    // } else {
+    //     answerInput.value = appState.userAnswers[index] || '';
+    // }
+    answerInput.value = '';
     // Update question counter
     questionCounter.textContent = `Question ${index + 1}/${questions.length}`;
     
     // Clear feedback
     feedbackDisplay.innerHTML = '';
+    
+    // Reset score display
+    scoreDisplay.textContent = 'Score: 0/0';
     
     // Update button states
     updateNavigationButtons();
@@ -196,8 +484,11 @@ function handleSubmit() {
     // Save user answer
     appState.userAnswers[originalIndex] = userAnswer;
     
+    // Get correct answer from audio path
+    const correctAnswer = extractAnswerFromPath(question.audioSrc);
+    
     // Calculate score and display feedback
-    const result = displayFeedback(userAnswer, question.answer);
+    const result = displayFeedback(userAnswer, correctAnswer);
     
     // Update wrong collection
     updateWrongQuestions(question, result);

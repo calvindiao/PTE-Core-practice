@@ -1,8 +1,8 @@
 /* WFD练习页面样式 */
 
 .wfd-container {
-    margin-top: 8rem;
     max-width: 800px;
+    margin-top: 8rem;
     margin-left: auto;
     margin-right: auto;
     padding: 2rem;

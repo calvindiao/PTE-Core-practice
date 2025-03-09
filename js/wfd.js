@@ -455,7 +455,7 @@ function updateNavigationButtons() {
         wrongCollectionButton.textContent = 'Return to All Questions';
         wrongCollectionButton.classList.add('active');
     } else {
-        wrongCollectionButton.textContent = 'Wrong Collection';
+        wrongCollectionButton.textContent = 'Mistake notebook';
         wrongCollectionButton.classList.remove('active');
         wrongCollectionButton.disabled = appState.wrongQuestions.length === 0;
     }

@@ -114,7 +114,8 @@
 
 .time-display {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 4px;
     color: #555;
     font-size: 0.9rem;
 }
@@ -266,48 +267,11 @@ input:checked + .slider:before {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Navigation Section */
-.navigation-section {
-    display: flex;
-    justify-content: center;
-}
-
-.question-navigation {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-#question-counter {
-    font-size: 1rem;
-    color: #555;
-    font-weight: 500;
-}
-
-.btn {
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.btn-secondary {
-    background-color: #ecf0f1;
-    color: #34495e;
-}
-
-.btn-secondary:hover {
-    background-color: #dfe6e9;
-}
-
 /* Responsive Styles */
 @media (max-width: 768px) {
     .rs-container {
+        margin-top: 5rem;
         padding: 1rem;
-        margin: 1rem;
     }
     
     .player-controls {
@@ -327,10 +291,5 @@ input:checked + .slider:before {
     .keyboard-shortcuts-info ul {
         flex-direction: column;
         gap: 0.5rem;
-    }
-    
-    .question-navigation {
-        flex-wrap: wrap;
-        justify-content: center;
     }
 } 

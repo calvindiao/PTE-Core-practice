@@ -11,9 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const subtitleToggle = document.getElementById('subtitle-toggle');
     const subtitleDisplay = document.getElementById('subtitle-display');
     const speedSelector = document.getElementById('speed-selector');
-    const prevButton = document.getElementById('prev-button');
-    const nextButton = document.getElementById('next-button');
-    const questionCounter = document.getElementById('question-counter');
 
     // RS questions
     const rsQuestions = [
@@ -70,12 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Load subtitles
         loadSubtitles(question.subtitleSrc);
-        
-        // Update question counter
-        questionCounter.textContent = `Question ${index + 1}/${rsQuestions.length}`;
-        
-        // Update navigation buttons
-        updateNavigationButtons();
     }
 
     // Load VTT subtitles
@@ -230,21 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
             state.audio.playbackRate = state.playbackRate;
         });
         
-        // Navigation buttons
-        prevButton.addEventListener('click', () => {
-            const newIndex = state.currentQuestionIndex - 1;
-            if (newIndex >= 0) {
-                loadQuestion(newIndex);
-            }
-        });
-        
-        nextButton.addEventListener('click', () => {
-            const newIndex = state.currentQuestionIndex + 1;
-            if (newIndex < rsQuestions.length) {
-                loadQuestion(newIndex);
-            }
-        });
-        
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             // Only respond to shortcuts if not typing in an input field
@@ -304,12 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Update navigation buttons
-    function updateNavigationButtons() {
-        prevButton.disabled = state.currentQuestionIndex === 0;
-        nextButton.disabled = state.currentQuestionIndex === rsQuestions.length - 1;
-    }
-
     // Format time in MM:SS format
     function formatTime(seconds) {
         const minutes = Math.floor(seconds / 60);
@@ -320,7 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update UI
     function updateUI() {
         updatePlayButton();
-        updateNavigationButtons();
     }
 
     // Initialize player when the page loads

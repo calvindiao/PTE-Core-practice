@@ -213,6 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 subtitleDisplay.classList.add('hidden');
             }
+            // Remove focus from the checkbox to enable keyboard shortcuts
+            e.target.blur();
         });
         
         // Playback speed

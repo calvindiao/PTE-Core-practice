@@ -1,3 +1,19 @@
+/**
+ * PTE Core Practice - Repeat Sentence (RS) Module
+ * 
+ * This file handles the functionality for the Repeat Sentence practice module.
+ * Features:
+ * - Audio playback with controls (play/pause, rewind, forward)
+ * - Progress tracking
+ * - Subtitle display
+ * - Playback speed adjustment
+ * - Keyboard shortcuts for efficient practice
+ * 
+ * @author Calvin Diao
+ * @version 1.0.0
+ * @license AGPL v3.0
+ */
+
 // RS Player implementation
 document.addEventListener('DOMContentLoaded', () => {
     // Player elements

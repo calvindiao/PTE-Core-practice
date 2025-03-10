@@ -22,35 +22,10 @@ const navSlide = () => {
     });
 }
 
-// Form validation and submission
-const formHandler = () => {
-    const form = document.getElementById('contact-form');
-    
-    if (form) {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Simple validation
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-            
-            if (name && email && message) {
-                // In a real application, you would send this data to a server
-                alert('Thank you for your message! We will get back to you soon.');
-                form.reset();
-            } else {
-                alert('Please fill in all fields.');
-            }
-        });
-    }
-}
-
 // Animate elements when they come into view
 const animateOnScroll = () => {
     const featureCards = document.querySelectorAll('.feature-card');
     const aboutContent = document.querySelector('.about-content');
-    const contactForm = document.querySelector('.contact-container');
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -67,20 +42,19 @@ const animateOnScroll = () => {
     });
     
     if (aboutContent) observer.observe(aboutContent);
-    if (contactForm) observer.observe(contactForm);
 }
 
 // Add CSS for animations
 const addAnimationStyles = () => {
     const style = document.createElement('style');
     style.textContent = `
-        .feature-card, .about-content, .contact-container {
+        .feature-card, .about-content {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
         
-        .feature-card.animate, .about-content.animate, .contact-container.animate {
+        .feature-card.animate, .about-content.animate {
             opacity: 1;
             transform: translateY(0);
         }
@@ -112,7 +86,6 @@ const addAnimationStyles = () => {
 document.addEventListener('DOMContentLoaded', () => {
     addAnimationStyles();
     navSlide();
-    formHandler();
     animateOnScroll();
     
     // Add current year to footer copyright

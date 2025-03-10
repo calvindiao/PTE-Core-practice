@@ -399,6 +399,13 @@
         margin-left: 0;
         margin-top: 10px;
     }
+    
+    /* Keep buttons in a row even on mobile devices */
+    .button-container {
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 480px) {
@@ -417,19 +424,19 @@
 }
 
 .donation-button {
-    margin-left: 15px;
-    display: inline-block;
-    vertical-align: middle;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    display: block;
 }
 
 .donate-btn {
     display: inline-block;
     background-color: #5F7FFF;
     color: white !important;
-    padding: 0.5rem 1.2rem;
+    padding: 0.8rem 1.5rem;
     border: none;
     border-radius: 50px;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -438,7 +445,7 @@
 }
 
 .donate-btn i {
-    margin-right: 5px;
+    margin-right: 8px;
     color: #FFF;
 }
 
@@ -446,4 +453,39 @@
     background-color: #3a5bd9;
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(74, 108, 247, 0.5);
+}
+
+.button-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.github-content .donate-btn {
+    display: inline-block;
+    background-color: #ff5f5f;  /* Different color than the repository button */
+    color: white !important;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 95, 95, 0.3);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.github-content .cta-button {
+    white-space: nowrap;
+}
+
+.github-content .donate-btn:hover {
+    background-color: #e54949;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(255, 95, 95, 0.5);
 } 

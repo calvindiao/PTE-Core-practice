@@ -423,7 +423,7 @@
 }
 
 .donation-button img {
-    max-width: 170px;
+    max-width: 160px;
     height: auto;
     transition: transform 0.3s ease;
     border-radius: 5px;

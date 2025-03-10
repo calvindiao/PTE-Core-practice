@@ -310,6 +310,7 @@
     transition: all 0.3s ease;
     font-size: 1.1rem;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .github-content .cta-button:hover {
@@ -429,32 +430,7 @@
     display: block;
 }
 
-.donate-btn {
-    display: inline-block;
-    background-color: #5F7FFF;
-    color: white !important;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(74, 108, 247, 0.3);
-    text-decoration: none;
-}
-
-.donate-btn i {
-    margin-right: 8px;
-    color: #FFF;
-}
-
-.donate-btn:hover {
-    background-color: #3a5bd9;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(74, 108, 247, 0.5);
-}
-
+/* Button container styles */
 .button-container {
     display: flex;
     gap: 15px;
@@ -465,29 +441,26 @@
 }
 
 .github-content .donate-btn {
-    display: inline-block;
-    background-color: #ff5f5f;  /* Different color than the repository button */
-    color: white !important;
-    padding: 0.8rem 1.5rem;
-    border: none;
+    background-color: #ff5f5f;
+    color: white;
+    padding: 0.8rem 2rem;
     border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 500;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(255, 95, 95, 0.3);
+    font-size: 1.1rem;
     text-decoration: none;
     white-space: nowrap;
-}
-
-.github-content .cta-button {
-    white-space: nowrap;
+    border: none;
+    box-shadow: 0 4px 10px rgba(255, 95, 95, 0.3);
 }
 
 .github-content .donate-btn:hover {
-    background-color: #e54949;
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(255, 95, 95, 0.5);
+    box-shadow: 0 5px 15px rgba(255, 95, 95, 0.3);
+    background-color: #e54949;
 }
 
 .github-content .donate-btn i {
